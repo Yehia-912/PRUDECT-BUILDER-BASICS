@@ -10,7 +10,7 @@ const Button = ({ className, children, width = "w-full", ...rest }: IProps) => {
   return (
     <>
       <button
-        className={`${width} p-2 rounded-md ${className} uppercase`}
+        className={`${width} p-2 rounded-md ${className} uppercase `}
         {...rest}
       >
         {children}

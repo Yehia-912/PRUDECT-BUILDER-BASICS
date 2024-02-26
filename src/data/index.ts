@@ -1,4 +1,4 @@
-import { PRODUCT } from "../interfaces";
+import { IInput, PRODUCT } from "../interfaces";
 
 export const PRODUCTS: PRODUCT[] = [
   {
@@ -142,5 +142,31 @@ export const PRODUCTS: PRODUCT[] = [
       imageURL:
         "https://images.unsplash.com/photo-1552831388-6a0b3575b32a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80",
     },
+  },
+];
+export const formInputsList: IInput[] = [
+  {
+    id: "title",
+    name: "title",
+    label: "Product Title",
+    type: "text",
+  },
+  {
+    id: "description",
+    name: "description",
+    label: "Product Description",
+    type: "text",
+  },
+  {
+    id: "image",
+    name: "imageURL",
+    label: "Product Image URL",
+    type: "text",
+  },
+  {
+    id: "price",
+    name: "price",
+    label: "Product Price",
+    type: "text",
   },
 ];

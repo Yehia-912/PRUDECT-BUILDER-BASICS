@@ -1,12 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, ReactNode } from "react";
 import Button from "./Button";
 interface IProps {
   title: string;
   isOpen: boolean;
+  children?: ReactNode;
   setIsOpen: (val: boolean) => void;
 }
-const Model = ({ isOpen, setIsOpen, title }: IProps) => {
+const Model = ({ isOpen, setIsOpen, title, children }: IProps) => {
   function closeModal() {
     setIsOpen(false);
   }
@@ -38,22 +39,24 @@ const Model = ({ isOpen, setIsOpen, title }: IProps) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900 uppercase mb-5"
                   >
                     {title}
                   </Dialog.Title>
+                  {children}
+                  <br />
                   <div className="flex space-x-3">
                     <Button
-                      className="w-full bg-indigo-400  text-white hover:bg-indigo-500"
+                      className="w-full bg-indigo-400  text-white hover:bg-indigo-500 duration-150"
                       onClick={() => setIsOpen(false)}
                     >
                       submit
                     </Button>
                     <Button
-                      className="w-full bg-gray-300 text-black hover:bg-gray-400"
+                      className="w-full bg-gray-400 text-white hover:bg-gray-500 duration-150"
                       onClick={() => setIsOpen(false)}
                     >
                       cancel

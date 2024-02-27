@@ -1,17 +1,48 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, ReactNode } from "react";
+import { FormEvent, Fragment, ReactNode } from "react";
 import Button from "./Button";
+import { IProduct } from "../../interfaces";
+import { defaultProductObj } from "../../data";
+import { errorsValidation } from "../../validation";
 interface IProps {
   title: string;
   isOpen: boolean;
   children?: ReactNode;
   setIsOpen: (val: boolean) => void;
+  setProducts: (val: IProduct[]) => void;
+  products: IProduct[];
+  newProduct: IProduct;
+  setNewProduct: (val: IProduct) => void;
 }
-const Model = ({ isOpen, setIsOpen, title, children }: IProps) => {
-  function closeModal() {
-    setIsOpen(false);
-  }
+const Model = ({
+  isOpen,
+  setIsOpen,
+  title,
+  children,
+  products,
+  newProduct,
+  setNewProduct,
+  setProducts,
+}: IProps) => {
+  // ** handlers
+  //#1
+  const closeModal = () => setIsOpen(false);
+  //#2
+  const onCancelHandler = () => {
+    setNewProduct(defaultProductObj);
+    // closeModal();
+  };
 
+  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const errors = errorsValidation({
+      title: newProduct.title,
+      description: newProduct.description,
+      imageURL: newProduct.imageURL,
+      price: newProduct.price,
+    });
+    console.log(errors);
+  };
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -46,22 +77,27 @@ const Model = ({ isOpen, setIsOpen, title, children }: IProps) => {
                   >
                     {title}
                   </Dialog.Title>
-                  {children}
-                  <br />
-                  <div className="flex space-x-3">
-                    <Button
-                      className="w-full bg-indigo-400  text-white hover:bg-indigo-500 duration-150"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      submit
-                    </Button>
-                    <Button
-                      className="w-full bg-gray-400 text-white hover:bg-gray-500 duration-150"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      cancel
-                    </Button>
-                  </div>
+                  <form action="get" onSubmit={onSubmitHandler}>
+                    {children}
+                    <br />
+                    <div className="flex space-x-3">
+                      <Button
+                        className="w-full bg-indigo-400  text-white hover:bg-indigo-500 duration-150"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        submit
+                      </Button>
+                      <Button
+                        className="w-full bg-gray-400 text-white hover:bg-gray-500 duration-150"
+                        onClick={onCancelHandler}
+                      >
+                        cancel
+                      </Button>
+                    </div>
+                  </form>
+                  <form action="">
+                    <button type="submit"></button>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

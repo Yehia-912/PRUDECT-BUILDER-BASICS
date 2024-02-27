@@ -1,5 +1,5 @@
-export interface PRODUCT {
-  id: string | undefined;
+export interface IProduct {
+  id?: string | undefined;
   title: string;
   description: string;
   price: string;
@@ -7,9 +7,10 @@ export interface PRODUCT {
   colors: string[];
   category: { name: string; imageURL: string };
 }
+// For inputs
 export interface IInput {
-  id: string;
-  name: string;
   label: string;
+  id: string;
   type: string;
+  name: "title" | "description" | "imageURL" | "price";
 }

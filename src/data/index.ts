@@ -1,6 +1,6 @@
-import { IInput, PRODUCT } from "../interfaces";
+import { IInput, IProduct } from "../interfaces";
 
-export const PRODUCTS: PRODUCT[] = [
+export const PRODUCTS: IProduct[] = [
   {
     id: "12",
     title: "Nike Shoes",
@@ -170,3 +170,12 @@ export const formInputsList: IInput[] = [
     type: "text",
   },
 ];
+
+export const defaultProductObj = {
+  title: "",
+  description: "",
+  imageURL: "",
+  price: "",
+  colors: [],
+  category: { name: "", imageURL: "" },
+};

@@ -1,10 +1,10 @@
-import { PRODUCT } from "../interfaces";
+import { IProduct } from "../interfaces";
 import { stringSlicer } from "../utils/functions";
 import Image from "./Image";
 import Button from "./UI/Button";
 
 interface IProps {
-  product: PRODUCT;
+  product: IProduct;
 }
 
 const productCard = ({ product }: IProps) => {
@@ -31,9 +31,9 @@ const productCard = ({ product }: IProps) => {
       <div className="flex items-center justify-between my-2">
         <span className="font-bold text-indigo-500 text-lg">${price}</span>
         <div className="flex items-center space-x-2 text-sm font-semibold">
-          <span>{category.name}</span>
+          <span>{category?.name}</span>
           <Image
-            imageURL={category.imageURL}
+            imageURL={category?.imageURL}
             alt="small preview"
             classes="w-12 h-12 rounded-full object-cover"
           />

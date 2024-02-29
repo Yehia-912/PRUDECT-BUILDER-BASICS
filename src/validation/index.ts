@@ -1,5 +1,4 @@
 /**
- * Validates a product object and returns any errors found during validation.
  *
  * @param {Object} product - The product object to be validated.
  * @param {string} product.title - The title of the product.
@@ -14,38 +13,34 @@ export const errorsValidation = (product: {
   imageURL: string;
   price: string;
 }) => {
-  const validURL =
-    /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/.test(
-      product.imageURL
+  const { title, description, imageURL, price } = product;
+
+  const validURL: boolean =
+    // eslint-disable-next-line no-useless-escape
+    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/.test(
+      imageURL
     );
+  const validTitle = !title.trim() || title.length < 8 || title.length > 90;
+  const validDescription =
+    !description.trim() || description.length < 15 || description.length > 900;
   const errors: {
     title: string;
     description: string;
     imageURL: string;
     price: string;
-  } = { title: "", description: "", imageURL: "", price: "" };
+  } = {
+    title: "",
+    description: "",
+    imageURL: "",
+    price: "",
+  };
 
-  if (
-    !product.title.trim() ||
-    product.title.length < 10 ||
-    product.title.length > 80
-  ) {
-    errors.title = "Product title must be between 10 and 80 character";
-  }
-  if (
-    !product.description.trim() ||
-    product.description.length < 10 ||
-    product.description.length > 900
-  ) {
+  if (validTitle)
+    errors.title = "product title must be between 8 and 90 characters";
+  if (validDescription)
     errors.description =
-      "Product description must be between 10 and 900 character";
-  }
-  if (!product.imageURL.trim() || validURL) {
-    errors.imageURL = "Valid URL is required";
-  }
-  if (!product.imageURL.trim() || isNaN(+product.price)) {
-    errors.price = "Valid price is required";
-  }
-
+      "product description must be between 15 and 900 characters";
+  if (!price.trim() || isNaN(+price)) errors.price = "valid price requird";
+  if (!imageURL.trim() || !validURL) errors.imageURL = "valid price required";
   return errors;
 };

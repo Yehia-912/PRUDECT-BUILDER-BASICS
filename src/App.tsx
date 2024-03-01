@@ -1,12 +1,15 @@
 import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
 import ProductCard from "./components/ProductCard";
 import Model from "./components/UI/Model";
-import { PRODUCTS, defaultProductObj, formInputsList } from "./data";
+import { COLORS, PRODUCTS, defaultProductObj, formInputsList } from "./data";
 import Button from "./components/UI/Button";
 import Input from "./components/UI/Input";
 import { IProduct } from "./interfaces";
 import { errorsValidation } from "./validation";
 import ErrorMessage from "./components/ErrorMessage";
+import CircleColor from "./components/CircleColor";
+import { v4 as uuid } from "uuid";
+
 const DEFAULTVALIDATABLEINPUTS = {
   title: "",
   description: "",
@@ -27,14 +30,15 @@ const App = () => {
     imageURL: "",
     price: "",
   });
+  //#4
+  const [tempColor, setTempColor] = useState<string[]>([]);
+  console.log(tempColor);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [products, setProducts] = useState<IProduct[]>(PRODUCTS);
 
   // ** handelers
   //#1
-
-  //#1
-
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
     setNewProduct((prev) => {
@@ -70,17 +74,44 @@ const App = () => {
       return;
     } else {
       setErrorMessages(DEFAULTVALIDATABLEINPUTS);
+      setProducts((prev) => [
+        { ...newProduct, id: uuid(), colors: tempColor },
+        ...prev,
+      ]);
+      setNewProduct(defaultProductObj);
+      setTempColor([]);
+      oncloseHandler();
     }
-
-    console.log("ok");
   };
   // ** renders
   //#1
   const renderProductsList = products.map((product) => (
     <ProductCard key={product.id} product={product} />
   ));
-  //#2r
-
+  //#2
+  const renderColorsList = COLORS.map((color) => (
+    <CircleColor
+      onClick={() =>
+        setTempColor((prev) =>
+          prev.includes(color)
+            ? prev.filter((val) => val !== color)
+            : [...prev, color]
+        )
+      }
+      color={color}
+      key={color}
+    />
+  ));
+  //#3
+  const renderTempColor = tempColor.map((clr) => (
+    <span
+      className="p-1 h-[32px] text-white rounded-md "
+      style={{ backgroundColor: clr }}
+      key={uuid()}
+    >
+      {clr}
+    </span>
+  ));
   // const hasError = Object.values(errors).some((error) => error);
   const renderFormInputs = formInputsList.map(({ id, label, name, type }) => (
     <div className="flex flex-col" key={name}>
@@ -114,6 +145,10 @@ const App = () => {
       >
         <form action="get" onSubmit={onSubmitHandler}>
           {renderFormInputs}
+          <div className="flex space-x-1 items-center mb-2 flex-wrap space-y-1">
+            {renderTempColor}
+          </div>
+          <div className="flex space-x-2">{renderColorsList}</div>
 
           <br />
           <div className="flex space-x-3">

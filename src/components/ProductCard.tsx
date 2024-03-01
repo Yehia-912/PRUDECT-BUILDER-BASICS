@@ -8,7 +8,11 @@ interface IProps {
 }
 
 const productCard = ({ product }: IProps) => {
-  const { title, description, imageURL, price, category } = product;
+  // ** renders
+  const { title, description, imageURL, price, category, colors } = product;
+  const renderColorsList = colors.map((clr) => (
+    <span className="w-5 h-5 rounded-full" style={{ backgroundColor: clr }} />
+  ));
   return (
     <div className="border p-2 rounded-md max-w-sm md:max-w-lg mx-auto  ">
       <Image
@@ -23,11 +27,7 @@ const productCard = ({ product }: IProps) => {
       <p className="text-gray-500 text-sm my-4 min-h-[80px]">
         {stringSlicer(description, 150)}
       </p>
-      <div className="flex space-x-1">
-        <span className="w-5 h-5 rounded-full bg-red-500" />
-        <span className="w-5 h-5 rounded-full bg-yellow-500" />
-        <span className="w-5 h-5 rounded-full bg-blue-500" />
-      </div>
+      <div className="flex space-x-1">{renderColorsList}</div>
       <div className="flex items-center justify-between my-2">
         <span className="font-bold text-indigo-500 text-lg">${price}</span>
         <div className="flex items-center space-x-2 text-sm font-semibold">
